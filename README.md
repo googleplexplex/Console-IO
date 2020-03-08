@@ -12,13 +12,21 @@ CHAR_INFO getc_cb(short x, short y) - Получение написанного 
 Все приведенные выше функции возвращают данные в виде определенной в Windows.h структуры CHAR_INFO, если необходимо получить не структуру CHAR_INFO, а конкретный тип символа/строки, то каждый из вышеперечисленных методов выше имеют аналоги с постфиксами. A - Если необходимо получить символ/строку в кодировке ASCII (char тип), U - Если необходимо получить символ/строку в кодировке Unicode (wchar_t тип).
 
 Аналоги:
+
 char* getall_cbA();
+
 wchar_t* getall_cbU();
+
 char* gets_cbA(short x, short y, short xsize, short ysize);
+
 wchar_t* gets_cbU(short x, short y, short xsize, short ysize);
+
 char getc_cbA(short x, short y);
+
 wchar_t getc_cbU(short x, short y);
 
 Разное:
+
 HANDLE hStdout - HANDLE консоли, из которой мы и читаем данные в функциях этой библиотеки.
+
 COORD getConSize() - Получение размера консоли структурой COORD.
