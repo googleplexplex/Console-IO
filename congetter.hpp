@@ -53,6 +53,7 @@ char* getAll_fromConsoleA()
 		ret_a[i] = ret_ci[i].Char.AsciiChar;
 	}
 
+	delete[] ret_ci;
 	return ret_a;
 }
 char* getAll_fromConsoleAN()
@@ -76,6 +77,7 @@ char* getAll_fromConsoleAN()
 	}
 	ret_a[allConsleCharsCount + consoleSize.Y - 1] = NULL;
 
+	delete[] ret_ci;
 	return ret_a;
 }
 wchar_t* getAll_fromConsoleU()
@@ -92,6 +94,7 @@ wchar_t* getAll_fromConsoleU()
 		ret_u[i] = ret_ci[i].Char.UnicodeChar;
 	}
 
+	delete[] ret_ci;
 	return ret_u;
 }
 wchar_t* getAll_fromConsoleUN()
@@ -115,6 +118,7 @@ wchar_t* getAll_fromConsoleUN()
 	}
 	ret_u[allConsleCharsCount + consoleSize.Y - 1] = NULL;
 
+	delete[] ret_ci;
 	return ret_u;
 }
 
@@ -148,6 +152,7 @@ char* getRect_fromConsoleA(short x, short y, short xsize, short ysize)
 	}
 	ret_a[allRectCharsCount] = NULL;
 
+	delete[] ret_ci;
 	return ret_a;
 }
 char* getRect_fromConsoleAN(short x, short y, short xsize, short ysize)
@@ -168,6 +173,7 @@ char* getRect_fromConsoleAN(short x, short y, short xsize, short ysize)
 	}
 	ret_a[allRectCharsCount + ysize - 1] = NULL;
 
+	delete[] ret_ci;
 	return ret_a;
 }
 wchar_t* getRect_fromConsoleU(short x, short y, short xsize, short ysize)
@@ -182,6 +188,7 @@ wchar_t* getRect_fromConsoleU(short x, short y, short xsize, short ysize)
 	}
 	ret_u[allRectCharsCount] = NULL;
 
+	delete[] ret_ci;
 	return ret_u;
 }
 wchar_t* getRect_fromConsoleUN(short x, short y, short xsize, short ysize)
@@ -202,6 +209,7 @@ wchar_t* getRect_fromConsoleUN(short x, short y, short xsize, short ysize)
 	}
 	ret_u[allRectCharsCount + ysize - 1] = NULL;
 
+	delete[] ret_ci;
 	return ret_u;
 }
 
@@ -235,6 +243,7 @@ char* gets_fromConsoleA(short x, short y, short xsize)
 	}
 	ret_a[allRectCharsCount] = NULL;
 
+	delete[] ret_ci;
 	return ret_a;
 }
 wchar_t* gets_fromConsoleU(short x, short y, short xsize)
@@ -249,6 +258,7 @@ wchar_t* gets_fromConsoleU(short x, short y, short xsize)
 	}
 	ret_u[allRectCharsCount] = NULL;
 
+	delete[] ret_ci;
 	return ret_u;
 }
 
