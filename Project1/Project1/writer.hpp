@@ -34,7 +34,7 @@ constexpr char brushedAsciiChar = (char)219;
 constexpr char emptyAsciiChar = ' ';
 constexpr wchar_t brushedUnicodeChar = (wchar_t)219;
 constexpr wchar_t emptyUnicodeChar = (wchar_t)' ';
-constexpr DWORD standartAttribute = 7;
+constexpr WORD standartAttribute = 7;
 constexpr CHAR_INFO brushedChaInfo = { brushedAsciiChar, standartAttribute };
 constexpr CHAR_INFO emptyCharInfo = { emptyAsciiChar, standartAttribute };
 
@@ -61,40 +61,19 @@ void setAllConsoleCI(CHAR_INFO filledChar = emptyCharInfo)
 	CHAR_INFO* charInfoBuffer = getFilledBuffer(filledChar, consoleSize.X * consoleSize.Y);
 
 	WriteConsoleOutput(hStdout, charInfoBuffer, coordBufSize, { 0, 0 }, &srctReadRect);
+	delete[] charInfoBuffer;
 }
 
-void setAllConsoleA(char filledChar = emptyAsciiChar, DWORD filledCharAttribute = standartAttribute)
+void setAllConsoleA(char filledChar = emptyAsciiChar, WORD filledCharAttribute = standartAttribute)
 {
-	COORD consoleSize = getConsoleSize();
-	SMALL_RECT srctReadRect = { 0, 0, consoleSize.X - 1, consoleSize.Y - 1 };
-	COORD coordBufSize = { consoleSize.X, consoleSize.Y };
-	int charsCountInConsole = consoleSize.X * consoleSize.Y;
-
-	CHAR_INFO* charInfoBuffer = new CHAR_INFO[charsCountInConsole];
-	for (int i = 0; i < charsCountInConsole; i++)
-	{
-		charInfoBuffer[i].Attributes = filledCharAttribute;
-		charInfoBuffer[i].Char.AsciiChar = filledChar;
-	}
-
-	WriteConsoleOutputA(hStdout, charInfoBuffer, coordBufSize, { 0, 0 }, &srctReadRect);
+	CHAR_INFO charset = { filledChar, filledCharAttribute };
+	setAllConsoleCI(charset);
 }
 
-void setAllConsoleW(wchar_t filledChar = emptyUnicodeChar, DWORD filledCharAttribute = standartAttribute)
+void setAllConsoleW(wchar_t filledChar = emptyUnicodeChar, WORD filledCharAttribute = standartAttribute)
 {
-	COORD consoleSize = getConsoleSize();
-	SMALL_RECT srctReadRect = { 0, 0, consoleSize.X - 1, consoleSize.Y - 1 };
-	COORD coordBufSize = { consoleSize.X, consoleSize.Y };
-	int charsCountInConsole = consoleSize.X * consoleSize.Y;
-
-	CHAR_INFO* charInfoBuffer = new CHAR_INFO[charsCountInConsole];
-	for (int i = 0; i < charsCountInConsole; i++)
-	{
-		charInfoBuffer[i].Attributes = filledCharAttribute;
-		charInfoBuffer[i].Char.UnicodeChar = filledChar;
-	}
-
-	WriteConsoleOutputW(hStdout, charInfoBuffer, coordBufSize, { 0, 0 }, &srctReadRect);
+	CHAR_INFO charset = { filledChar, filledCharAttribute };
+	setAllConsoleCI(charset);
 }
 
 
@@ -110,36 +89,19 @@ void setRectInConsoleCI(SMALL_RECT& filledRect, CHAR_INFO filledChar = emptyChar
 	}
 
 	WriteConsoleOutput(hStdout, charInfoBuffer, filledRectSize, { 0, 0 }, &filledRect);
+	delete[] charInfoBuffer;
 }
 
-void setRectInConsoleA(SMALL_RECT& filledRect, char filledChar = emptyAsciiChar, DWORD filledCharAttribute = standartAttribute)
+void setRectInConsoleA(SMALL_RECT& filledRect, char filledChar = emptyAsciiChar, WORD filledCharAttribute = standartAttribute)
 {
-	COORD filledRectSize = { filledRect.Right - filledRect.Left, filledRect.Bottom - filledRect.Top };
-	int charsCountInConsole = filledRectSize.X * filledRectSize.Y;
-
-	CHAR_INFO* charInfoBuffer = new CHAR_INFO[charsCountInConsole];
-	for (int i = 0; i < charsCountInConsole; i++)
-	{
-		charInfoBuffer[i].Char.AsciiChar = filledChar;
-		charInfoBuffer[i].Attributes = filledCharAttribute;
-	}
-
-	WriteConsoleOutputA(hStdout, charInfoBuffer, filledRectSize, { 0, 0 }, &filledRect);
+	CHAR_INFO charset = { filledChar, filledCharAttribute };
+	setRectInConsoleCI(filledRect, charset);
 }
 
-void setRectInConsoleW(SMALL_RECT& filledRect, wchar_t filledChar = emptyUnicodeChar, DWORD filledCharAttribute = standartAttribute)
+void setRectInConsoleW(SMALL_RECT& filledRect, wchar_t filledChar = emptyUnicodeChar, WORD filledCharAttribute = standartAttribute)
 {
-	COORD filledRectSize = { filledRect.Right - filledRect.Left, filledRect.Bottom - filledRect.Top };
-	int charsCountInConsole = filledRectSize.X * filledRectSize.Y;
-
-	CHAR_INFO* charInfoBuffer = new CHAR_INFO[charsCountInConsole];
-	for (int i = 0; i < charsCountInConsole; i++)
-	{
-		charInfoBuffer[i].Char.UnicodeChar = filledChar;
-		charInfoBuffer[i].Attributes = filledCharAttribute;
-	}
-
-	WriteConsoleOutputW(hStdout, charInfoBuffer, filledRectSize, { 0, 0 }, &filledRect);
+	CHAR_INFO charset = { filledChar, filledCharAttribute };
+	setRectInConsoleCI(filledRect, charset);
 }
 
 void setRectInConsoleCI(SMALL_RECT& printedRect, CHAR_INFO* printedString, int printedStringSize, CHAR_INFO emptyChar = emptyCharInfo)
@@ -158,9 +120,10 @@ void setRectInConsoleCI(SMALL_RECT& printedRect, CHAR_INFO* printedString, int p
 	}
 
 	WriteConsoleOutput(hStdout, charInfoBuffer, filledRectSize, { 0, 0 }, &printedRect);
+	delete[] charInfoBuffer;
 }
 
-void setRectInConsoleA(SMALL_RECT& printedRect, char* printedString, int printedStringSize, DWORD printedStringAttributes = standartAttribute, CHAR_INFO emptyChar = emptyCharInfo)
+void setRectInConsoleA(SMALL_RECT& printedRect, char* printedString, int printedStringSize, WORD printedStringAttributes = standartAttribute, CHAR_INFO emptyChar = emptyCharInfo)
 {
 	COORD filledRectSize = { printedRect.Right - printedRect.Left, printedRect.Bottom - printedRect.Top };
 	int charsCountInConsole = filledRectSize.X * filledRectSize.Y;
@@ -177,9 +140,10 @@ void setRectInConsoleA(SMALL_RECT& printedRect, char* printedString, int printed
 	}
 
 	WriteConsoleOutputA(hStdout, charInfoBuffer, filledRectSize, { 0, 0 }, &printedRect);
+	delete[] charInfoBuffer;
 }
 
-void setRectInConsoleW(SMALL_RECT& printedRect, wchar_t* printedString, int printedStringSize, DWORD printedStringAttributes = standartAttribute, CHAR_INFO emptyChar = emptyCharInfo)
+void setRectInConsoleW(SMALL_RECT& printedRect, wchar_t* printedString, int printedStringSize, WORD printedStringAttributes = standartAttribute, CHAR_INFO emptyChar = emptyCharInfo)
 {
 	COORD filledRectSize = { printedRect.Right - printedRect.Left, printedRect.Bottom - printedRect.Top };
 	int charsCountInConsole = filledRectSize.X * filledRectSize.Y;
@@ -196,50 +160,34 @@ void setRectInConsoleW(SMALL_RECT& printedRect, wchar_t* printedString, int prin
 	}
 
 	WriteConsoleOutputW(hStdout, charInfoBuffer, filledRectSize, { 0, 0 }, &printedRect);
+	delete[] charInfoBuffer;
 }
 
 
-void setLineInConsoleCI(COORD linePos, CHAR_INFO lineChar, int lineSize)
+void setLineInConsoleCI(COORD linePos, CHAR_INFO lineChar, short lineSize)
 {
 	SMALL_RECT srctReadRect = { linePos.X, linePos.Y, linePos.X + lineSize, linePos.Y + 1 };
 	COORD coordBufSize = { lineSize, 1 };
 	CHAR_INFO* charInfoBuffer = getFilledBuffer(lineChar, lineSize);
 
 	WriteConsoleOutput(hStdout, charInfoBuffer, coordBufSize, { 0, 0 }, &srctReadRect);
+	delete[] charInfoBuffer;
 }
 
-void setLineInConsoleA(COORD linePos, char lineChar, int lineSize, DWORD lineCharAttribute = standartAttribute)
+void setLineInConsoleA(COORD linePos, char lineChar, short lineSize, WORD lineCharAttribute = standartAttribute)
 {
-	SMALL_RECT srctReadRect = { linePos.X, linePos.Y, linePos.X + lineSize, linePos.Y + 1 };
-	COORD coordBufSize = { lineSize, 1 };
-
-	CHAR_INFO* charInfoBuffer = new CHAR_INFO[lineSize];
-	for (int i = 0; i < lineSize; i++)
-	{
-		charInfoBuffer[i].Char.AsciiChar = lineChar;
-		charInfoBuffer[i].Attributes = lineCharAttribute;
-	}
-
-	WriteConsoleOutputA(hStdout, charInfoBuffer, coordBufSize, { 0, 0 }, &srctReadRect);
+	CHAR_INFO charset = { lineChar, lineCharAttribute };
+	setLineInConsoleCI(linePos, charset, lineSize);
 }
 
-void setLineInConsoleW(COORD linePos, wchar_t lineChar, int lineSize, DWORD lineCharAttribute = standartAttribute)
+void setLineInConsoleW(COORD linePos, wchar_t lineChar, short lineSize, WORD lineCharAttribute = standartAttribute)
 {
-	SMALL_RECT srctReadRect = { linePos.X, linePos.Y, linePos.X + lineSize, linePos.Y + 1 };
-	COORD coordBufSize = { lineSize, 1 };
-
-	CHAR_INFO* charInfoBuffer = new CHAR_INFO[lineSize];
-	for (int i = 0; i < lineSize; i++)
-	{
-		charInfoBuffer[i].Char.UnicodeChar = lineChar;
-		charInfoBuffer[i].Attributes = lineCharAttribute;
-	}
-
-	WriteConsoleOutputW(hStdout, charInfoBuffer, coordBufSize, { 0, 0 }, &srctReadRect);
+	CHAR_INFO charset = { lineChar, lineCharAttribute };
+	setLineInConsoleCI(linePos, charset, lineSize);
 }
 
 
-void setStringInConsoleCI(COORD stringPos, CHAR_INFO* filledChar, int stringSize)
+void setStringInConsoleCI(COORD stringPos, CHAR_INFO* filledChar, short stringSize)
 {
 	SMALL_RECT srctReadRect = { stringPos.X, stringPos.Y, stringPos.X + stringSize, stringPos.Y + 1 };
 	COORD coordBufSize = { stringSize, 1 };
@@ -247,11 +195,8 @@ void setStringInConsoleCI(COORD stringPos, CHAR_INFO* filledChar, int stringSize
 	WriteConsoleOutput(hStdout, filledChar, coordBufSize, { 0, 0 }, &srctReadRect);
 }
 
-void setStringInConsoleA(COORD stringPos, char* filledChar, int stringSize, DWORD filledCharAttribute = standartAttribute)
+void setStringInConsoleA(COORD stringPos, char* filledChar, short stringSize, WORD filledCharAttribute = standartAttribute)
 {
-	SMALL_RECT srctReadRect = { stringPos.X, stringPos.Y, stringPos.X + stringSize, stringPos.Y + 1 };
-	COORD coordBufSize = { stringSize, 1 };
-
 	CHAR_INFO* charBuffer = new CHAR_INFO[stringSize];
 	for (int i = 0; i < stringSize; i++)
 	{
@@ -259,14 +204,16 @@ void setStringInConsoleA(COORD stringPos, char* filledChar, int stringSize, DWOR
 		charBuffer[i].Attributes = filledCharAttribute;
 	}
 
-	WriteConsoleOutputA(hStdout, charBuffer, coordBufSize, { 0, 0 }, &srctReadRect);
+	setStringInConsoleCI(stringPos, charBuffer, stringSize);
+	delete[] charBuffer;
+}
+void setStringInConsoleA(COORD stringPos, char* filledChar, WORD filledCharAttribute = standartAttribute)
+{
+	setStringInConsoleA(stringPos, filledChar, strlen(filledChar), filledCharAttribute);
 }
 
-void setStringInConsoleW(COORD stringPos, wchar_t* filledChar, int stringSize, DWORD filledCharAttribute = standartAttribute)
+void setStringInConsoleW(COORD stringPos, wchar_t* filledChar, short stringSize, WORD filledCharAttribute = standartAttribute)
 {
-	SMALL_RECT srctReadRect = { stringPos.X, stringPos.Y, stringPos.X + stringSize, stringPos.Y + 1 };
-	COORD coordBufSize = { stringSize, 1 };
-
 	CHAR_INFO* charBuffer = new CHAR_INFO[stringSize];
 	for (int i = 0; i < stringSize; i++)
 	{
@@ -274,11 +221,16 @@ void setStringInConsoleW(COORD stringPos, wchar_t* filledChar, int stringSize, D
 		charBuffer[i].Attributes = filledCharAttribute;
 	}
 
-	WriteConsoleOutputW(hStdout, charBuffer, coordBufSize, { 0, 0 }, &srctReadRect);
+	setStringInConsoleCI(stringPos, charBuffer, stringSize);
+	delete[] charBuffer;
+}
+void setStringInConsoleW(COORD stringPos, wchar_t* filledChar, WORD filledCharAttribute = standartAttribute)
+{
+	setStringInConsoleW(stringPos, filledChar, wcslen(filledChar), filledCharAttribute);
 }
 
 
-void setCharInConsoleCI(COORD settedCharPos, CHAR_INFO settedChar)
+void setCharInConsoleCI(COORD settedCharPos, CHAR_INFO settedChar = emptyCharInfo)
 {
 	SMALL_RECT srctReadRect = { settedCharPos.X, settedCharPos.Y, settedCharPos.X + 1, settedCharPos.Y + 1 };
 	COORD coordBufSize = { 1, 1 };
@@ -286,22 +238,14 @@ void setCharInConsoleCI(COORD settedCharPos, CHAR_INFO settedChar)
 	WriteConsoleOutput(hStdout, &settedChar, coordBufSize, { 0, 0 }, &srctReadRect);
 }
 
-void setCharInConsoleA(COORD settedCharPos, char settedChar, DWORD settedCharAttribute = standartAttribute)
+void setCharInConsoleA(COORD settedCharPos, char settedChar = emptyAsciiChar, WORD settedCharAttribute = standartAttribute)
 {
-	SMALL_RECT srctReadRect = { settedCharPos.X, settedCharPos.Y, settedCharPos.X + 1, settedCharPos.Y + 1 };
-	COORD coordBufSize = { 1, 1 };
-
-	CHAR_INFO charBuffer = { settedChar, settedCharAttribute };
-
-	WriteConsoleOutputA(hStdout, &charBuffer, coordBufSize, { 0, 0 }, &srctReadRect);
+	CHAR_INFO charset = { settedChar, settedCharAttribute };
+	setCharInConsoleCI(settedCharPos, charset);
 }
 
-void setCharInConsoleW(COORD settedCharPos, wchar_t settedChar, DWORD settedCharAttribute = standartAttribute)
+void setCharInConsoleW(COORD settedCharPos, wchar_t settedChar = emptyUnicodeChar, WORD settedCharAttribute = standartAttribute)
 {
-	SMALL_RECT srctReadRect = { settedCharPos.X, settedCharPos.Y, settedCharPos.X + 1, settedCharPos.Y + 1 };
-	COORD coordBufSize = { 1, 1 };
-
-	CHAR_INFO charBuffer = { settedChar, settedCharAttribute };
-
-	WriteConsoleOutputW(hStdout, &charBuffer, coordBufSize, { 0, 0 }, &srctReadRect);
+	CHAR_INFO charset = { settedChar, settedCharAttribute };
+	setCharInConsoleCI(settedCharPos, charset);
 }

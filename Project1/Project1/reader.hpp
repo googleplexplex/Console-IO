@@ -229,7 +229,7 @@ wchar_t* getRectFromConsoleWN(SMALL_RECT& srctReadRect)
 	return result;
 }
 
-CHAR_INFO* getStringFromConsoleCI(COORD stringPos, int size)
+CHAR_INFO* getStringFromConsoleCI(COORD stringPos, short size)
 {
 	SMALL_RECT srctReadRect = { stringPos.X, stringPos.Y, stringPos.X + size + 1, stringPos.Y + 1 };
 	CHAR_INFO* charBuffer = new CHAR_INFO[size];
@@ -239,21 +239,21 @@ CHAR_INFO* getStringFromConsoleCI(COORD stringPos, int size)
 
 	return charBuffer;
 }
-char* getStringFromConsoleA(COORD stringPos, int size, DWORD* out = NULL)
+char* getStringFromConsoleA(COORD stringPos, short size, DWORD* out = NULL)
 {
 	LPSTR result = new char[size];
 	ReadConsoleOutputCharacterA(hStdout, result, size, stringPos, out);
 
 	return result;
 }
-wchar_t* getStringFromConsoleW(COORD stringPos, int size, DWORD* out = NULL)
+wchar_t* getStringFromConsoleW(COORD stringPos, short size, DWORD* out = NULL)
 {
 	LPWSTR result = new wchar_t[size];
 	ReadConsoleOutputCharacterW(hStdout, result, size, stringPos, out);
 
 	return result;
 }
-WORD* getAttributesFromConsole(COORD gettedPos, int size, DWORD* out = NULL)
+WORD* getAttributesFromConsole(COORD gettedPos, short size, DWORD* out = NULL)
 {
 	WORD* result = new WORD[size];
 	ReadConsoleOutputAttribute(hStdout, result, size, gettedPos, out);
