@@ -8,7 +8,7 @@ using namespace std;
 
 int main(void)
 {
-	//*tests*
+	setStringInConsoleA({ 1, 1 }, (char*)"Hello, world!", 14);
 
 	return 0;
 }
