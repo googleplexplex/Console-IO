@@ -187,46 +187,46 @@ void setLineInConsoleW(COORD linePos, wchar_t lineChar, short lineSize, WORD lin
 }
 
 
-void setStringInConsoleCI(COORD stringPos, CHAR_INFO* filledChar, short stringSize)
+void setStringInConsoleCI(COORD stringPos, CHAR_INFO* settedString, short stringSize)
 {
 	SMALL_RECT srctReadRect = { stringPos.X, stringPos.Y, stringPos.X + stringSize, stringPos.Y + 1 };
 	COORD coordBufSize = { stringSize, 1 };
 
-	WriteConsoleOutput(hStdout, filledChar, coordBufSize, { 0, 0 }, &srctReadRect);
+	WriteConsoleOutput(hStdout, settedString, coordBufSize, { 0, 0 }, &srctReadRect);
 }
 
-void setStringInConsoleA(COORD stringPos, char* filledChar, short stringSize, WORD filledCharAttribute = standartAttribute)
+void setStringInConsoleA(COORD stringPos, char* settedString, short stringSize, WORD settedStringAttribute = standartAttribute)
 {
 	CHAR_INFO* charBuffer = new CHAR_INFO[stringSize];
 	for (int i = 0; i < stringSize; i++)
 	{
-		charBuffer[i].Char.AsciiChar = filledChar[i];
-		charBuffer[i].Attributes = filledCharAttribute;
+		charBuffer[i].Char.AsciiChar = settedString[i];
+		charBuffer[i].Attributes = settedStringAttribute;
 	}
 
 	setStringInConsoleCI(stringPos, charBuffer, stringSize);
 	delete[] charBuffer;
 }
-void setStringInConsoleA(COORD stringPos, char* filledChar, WORD filledCharAttribute = standartAttribute)
+void setStringInConsoleA(COORD stringPos, char* settedString, WORD settedStringAttribute = standartAttribute)
 {
-	setStringInConsoleA(stringPos, filledChar, strlen(filledChar), filledCharAttribute);
+	setStringInConsoleA(stringPos, settedStringChar, strlen(settedString), settedStringAttribute);
 }
 
-void setStringInConsoleW(COORD stringPos, wchar_t* filledChar, short stringSize, WORD filledCharAttribute = standartAttribute)
+void setStringInConsoleW(COORD stringPos, wchar_t* settedString, short stringSize, WORD settedStringAttribute = standartAttribute)
 {
 	CHAR_INFO* charBuffer = new CHAR_INFO[stringSize];
 	for (int i = 0; i < stringSize; i++)
 	{
-		charBuffer[i].Char.UnicodeChar = filledChar[i];
-		charBuffer[i].Attributes = filledCharAttribute;
+		charBuffer[i].Char.UnicodeChar = settedString[i];
+		charBuffer[i].Attributes = settedStringAttribute;
 	}
 
 	setStringInConsoleCI(stringPos, charBuffer, stringSize);
 	delete[] charBuffer;
 }
-void setStringInConsoleW(COORD stringPos, wchar_t* filledChar, WORD filledCharAttribute = standartAttribute)
+void setStringInConsoleW(COORD stringPos, wchar_t* settedString, WORD settedStringAttribute = standartAttribute)
 {
-	setStringInConsoleW(stringPos, filledChar, wcslen(filledChar), filledCharAttribute);
+	setStringInConsoleW(stringPos, settedString, wcslen(settedString), settedStringAttribute);
 }
 
 
