@@ -122,15 +122,15 @@ CHAR_INFO emptyCharInfo - Пустой символ
 `void setLineInConsoleW(COORD linePos, wchar_t lineChar, short lineSize, WORD lineCharAttribute = standartAttribute)` - Заполняет строку консоли, располагающуюся в **linePos** линией символов **lineChar** с атрибутами **lineCharAttribute** размером **lineSize**
 
 
-`void setStringInConsoleCI(COORD stringPos, CHAR_INFO* filledChar, short stringSize)` - Отображает в консоли по позиции **stringPos** строку **filledChar** размером **stringSize**
+`void setStringInConsoleCI(COORD stringPos, CHAR_INFO* settedString, short stringSize)` - Отображает в консоли по позиции **stringPos** строку **settedString** размером **stringSize**
 
-`void setStringInConsoleA(COORD stringPos, char* filledChar, short stringSize, WORD filledCharAttribute = standartAttribute)` - Отображает в консоли по позиции **stringPos** строку **filledChar** с аттрибутом **filledCharAttribute** и размером **stringSize**
+`void setStringInConsoleA(COORD stringPos, char* settedString, short stringSize, WORD settedStringAttribute = standartAttribute)` - Отображает в консоли по позиции **stringPos** строку **settedString** с аттрибутом **settedStringAttribute** и размером **stringSize**
 
-`void setStringInConsoleA(COORD stringPos, char* filledChar, WORD filledCharAttribute = standartAttribute)` - Отображает в консоли по позиции **stringPos** строку **filledChar** (Размер **filledChar** вычисляется функцией **strlen**)
+`void setStringInConsoleA(COORD stringPos, char* settedString, WORD settedStringAttribute = standartAttribute)` - Отображает в консоли по позиции **stringPos** строку **settedString** (Размер **settedString** вычисляется функцией **strlen**)
 
-`void setStringInConsoleW(COORD stringPos, wchar_t* filledChar, short stringSize, WORD filledCharAttribute = standartAttribute)` - Отображает в консоли по позиции **stringPos** строку **filledChar** с аттрибутом **filledCharAttribute** и размером **stringSize**
+`void setStringInConsoleW(COORD stringPos, wchar_t* settedString, short stringSize, WORD settedStringAttribute = standartAttribute)` - Отображает в консоли по позиции **stringPos** строку **settedString** с аттрибутом **settedStringAttribute** и размером **stringSize**
 
-`void setStringInConsoleW(COORD stringPos, wchar_t* filledChar, WORD filledCharAttribute = standartAttribute)` - Отображает в консоли по позиции **stringPos** строку **filledChar** (Размер **filledChar** вычисляется функцией **wcslen**)
+`void setStringInConsoleW(COORD stringPos, wchar_t* settedString, WORD settedStringAttribute = standartAttribute)` - Отображает в консоли по позиции **stringPos** строку **settedString** (Размер **settedString** вычисляется функцией **wcslen**)
 
 
 `void setCharInConsoleCI(COORD settedCharPos, CHAR_INFO settedChar = emptyCharInfo)` - Отображает в консоли символ **settedChar** по позиции **settedCharPos**
