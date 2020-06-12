@@ -209,7 +209,7 @@ void setStringInConsoleA(COORD stringPos, char* settedString, short stringSize, 
 }
 void setStringInConsoleA(COORD stringPos, char* settedString, WORD settedStringAttribute = standartAttribute)
 {
-	setStringInConsoleA(stringPos, settedStringChar, strlen(settedString), settedStringAttribute);
+	setStringInConsoleA(stringPos, settedString, strlen(settedString), settedStringAttribute);
 }
 
 void setStringInConsoleW(COORD stringPos, wchar_t* settedString, short stringSize, WORD settedStringAttribute = standartAttribute)
